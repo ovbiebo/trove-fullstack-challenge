@@ -9,19 +9,27 @@ import cors from 'cors';
 import debug from 'debug';
 
 import {CommonRoutesConfig} from './routes/common.routes.config';
+import {container} from "tsyringe";
+import {AuthRoutes} from "./routes/auth.routes.config";
+import {UsersRoutes} from "./routes/users.routes.config";
 
 const app: express.Application = express();
 configureDependencies(app);
 
 const server: http.Server = http.createServer(app);
 const port = process.env.PORT || 3333;
-const routes: Array<CommonRoutesConfig> = [];
 const debugLog: debug.IDebugger = debug('app');
 
 app.use(express.json());
 app.use(cors());
 
 configureLogger(app);
+
+const routes: Array<CommonRoutesConfig> = [
+    container.resolve(AuthRoutes),
+    container.resolve(UsersRoutes),
+];
+
 
 export default server.listen(port, () => {
     routes.forEach((route: CommonRoutesConfig) => {
