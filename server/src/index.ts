@@ -12,6 +12,7 @@ import {CommonRoutesConfig} from './routes/common.routes.config';
 import {container} from "tsyringe";
 import {AuthRoutes} from "./routes/auth.routes.config";
 import {UsersRoutes} from "./routes/users.routes.config";
+import {InvestmentsRoutes} from "./routes/investments.routes.config";
 
 const app: express.Application = express();
 configureDependencies(app);
@@ -28,6 +29,7 @@ configureLogger(app);
 const routes: Array<CommonRoutesConfig> = [
     container.resolve(AuthRoutes),
     container.resolve(UsersRoutes),
+    container.resolve(InvestmentsRoutes),
 ];
 
 

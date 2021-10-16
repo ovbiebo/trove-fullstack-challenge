@@ -1,4 +1,3 @@
-import {CRUD} from '../interfaces/crud.interface';
 import {CreateUserDto} from '../dtos/users/create.user.dto';
 import {PutUserDto} from '../dtos/users/put.user.dto';
 import {PatchUserDto} from '../dtos/users/patch.user.dto';
@@ -8,7 +7,7 @@ import {inject, singleton} from 'tsyringe';
 import {USERS_DAO} from "../config/constants";
 
 @singleton()
-export class UsersService implements CRUD {
+export class UsersService {
     constructor(@inject(USERS_DAO) private usersDao: UsersDao) {
     }
 
