@@ -2,7 +2,7 @@
   "name": "trove-challenge-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "start": "tsc && node --unhandled-rejections=strict ./dist/index.js",
     "debug": "set DEBUG=app* && npm run start",
