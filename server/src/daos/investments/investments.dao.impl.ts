@@ -26,6 +26,10 @@ export class InvestmentsDaoImpl implements InvestmentsDao {
         }
     ]
 
+    constructor() {
+        log('Created new instance of InvestmentsDaoImpl');
+    }
+
     async getInvestments() {
         return this.investments;
     }

@@ -8,7 +8,7 @@ import shortid from 'shortid';
 import debug from 'debug';
 import {singleton} from 'tsyringe';
 
-const log: debug.IDebugger = debug('app:mongo-db-dao');
+const log: debug.IDebugger = debug('app:users-mongo-db-dao');
 
 @singleton()
 export class UsersDaoImpl implements UsersDao {
