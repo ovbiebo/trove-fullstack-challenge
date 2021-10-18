@@ -4,6 +4,7 @@ import {LoansService} from "../services/loans.service";
 
 import debug from 'debug';
 import {singleton} from 'tsyringe';
+import {Status} from "../middleware/loans/status.enum";
 
 const log: debug.IDebugger = debug('app:loans-controller');
 
@@ -13,7 +14,7 @@ export class LoansController {
     }
 
     getLoansByApplicantId = async (req: express.Request, res: express.Response) => {
-        const loans = await this.loansService.getLoansByApplicantId(req.params.userId);
+        const loans = await this.loansService.getLoansByApplicantId(res.locals.jwt.userId);
         res.status(200).send(loans);
     }
 
@@ -23,8 +24,9 @@ export class LoansController {
     }
 
     createLoan = async (req: express.Request, res: express.Response) => {
-        req.body.status = 0;
-        req.body.applicantId = req.params.userId;
+        req.body.status = Status.ACTIVE;
+        req.body.applicantId = res.locals.jwt.userId;
+        req.body.dateIssued = Date.now();
         const loanId = await this.loansService.create(req.body);
         res.status(201).send({id: loanId});
     }

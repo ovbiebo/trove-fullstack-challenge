@@ -20,4 +20,8 @@ export class LoansService {
     async getLoansByApplicantId(id: string) {
         return this.loansDao.getLoansByApplicantId(id);
     }
+
+    async getActiveLoanByApplicantId(id: string){
+        return this.loansDao.getActiveLoanByApplicantId(id);
+    }
 }
