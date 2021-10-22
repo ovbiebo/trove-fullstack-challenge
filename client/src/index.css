@@ -2,8 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .heading {
+        @apply pb-4 text-3xl font-semibold font-black opacity-25;
+    }
+
+    .button-primary {
+        @apply relative w-full flex items-center font-semibold justify-center h-12 px-4 text-sm text-white rounded-md bg-indigo-500 hover:bg-indigo-600 outline-none;
+    }
+}
+
 html,
-body {
+body,
+#root{
+    @apply bg-gray-50 font-medium;
     padding: 0;
     margin: 0;
     height: 100%;
