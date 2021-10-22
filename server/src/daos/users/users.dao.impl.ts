@@ -2,35 +2,23 @@ import {CreateUserDto} from '../../dtos/users/create.user.dto';
 import {PatchUserDto} from '../../dtos/users/patch.user.dto';
 import {PutUserDto} from '../../dtos/users/put.user.dto';
 import {UsersDao} from "./users.dao";
-import mongooseService from '../../services/mongoose.service';
 
 import shortid from 'shortid';
 import debug from 'debug';
 import {singleton} from 'tsyringe';
+import {User} from "../../models/user.model";
 
 const log: debug.IDebugger = debug('app:users-mongo-db-dao');
 
 @singleton()
 export class UsersDaoImpl implements UsersDao {
-    Schema = mongooseService.getMongoose().Schema;
-
-    userSchema = new this.Schema({
-        _id: String,
-        email: String,
-        password: { type: String, select: false },
-        firstName: String,
-        lastName: String,
-    }, { id: false });
-
-    User = mongooseService.getMongoose().model('Users', this.userSchema);
-
     constructor() {
         log('Created new instance of UsersDaoImpl');
     }
 
     async addUser(userFields: CreateUserDto) {
         const userId = shortid.generate();
-        const user = new this.User({
+        const user = new User({
             _id: userId,
             ...userFields,
         });
@@ -39,14 +27,14 @@ export class UsersDaoImpl implements UsersDao {
     }
 
     async getUserById(userId: string) {
-        return this.User.findOne({ _id: userId }).exec();
+        return User.findOne({_id: userId}).exec();
     }
 
     async updateUserById(
         userId: string,
         userFields: PatchUserDto | PutUserDto
     ) {
-        return await this.User.findOneAndUpdate(
+        return await User.findOneAndUpdate(
             {_id: userId},
             {$set: userFields},
             {new: true}
@@ -62,15 +50,15 @@ export class UsersDaoImpl implements UsersDao {
     }
 
     async removeUserById(userId: string) {
-        return this.User.deleteOne({ _id: userId }).exec();
+        return User.deleteOne({_id: userId}).exec();
     }
 
     async getUserByEmail(email: string) {
-        return this.User.findOne({ email: email }).exec();
+        return User.findOne({email: email}).exec();
     }
 
     async getUserByEmailWithPassword(email: string) {
-        return this.User.findOne({ email: email })
+        return User.findOne({email: email})
             .select('_id email +password')
             .exec();
     }

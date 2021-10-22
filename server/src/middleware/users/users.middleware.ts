@@ -2,8 +2,9 @@ import express from 'express';
 import {UsersService} from '../../services/users.service';
 import debug from 'debug';
 import {singleton} from 'tsyringe';
+import * as argon2 from "argon2";
 
-const log: debug.IDebugger = debug('app:users-controller');
+const log: debug.IDebugger = debug('app:users-middleware');
 
 @singleton()
 export class UsersMiddleware {
@@ -47,6 +48,25 @@ export class UsersMiddleware {
         } else {
             next();
         }
+    };
+
+    validatePatchPassword = async (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) => {
+        const user: any = await this.usersService.getUserByEmailWithPassword(
+            req.body.email
+        );
+        if (user) {
+            const passwordHash = user.password;
+            if (await argon2.verify(passwordHash, req.body.password)) {
+                req.body.password = req.body.newPassword;
+                return next();
+            }
+        }
+
+        res.status(400).send({errors: ['Invalid credentials']});
     };
 
     validateUserExists = async (

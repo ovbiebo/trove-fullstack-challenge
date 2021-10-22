@@ -1,9 +1,12 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import { Jwt } from '../../types/jwt';
+import {Jwt} from '../../types/jwt';
 import {UsersService} from '../../services/users.service';
 import {singleton} from "tsyringe";
+import debug from "debug";
+
+const log: debug.IDebugger = debug('app:jwt-middleware');
 
 // @ts-expect-error
 const jwtSecret: string = process.env.JWT_SECRET;
@@ -23,7 +26,7 @@ export class JwtMiddleware {
         } else {
             return res
                 .status(400)
-                .send({ errors: ['Missing required field: refreshToken'] });
+                .send({errors: ['Missing required field: refreshToken']});
         }
     }
 
@@ -32,6 +35,17 @@ export class JwtMiddleware {
         res: express.Response,
         next: express.NextFunction
     ) => {
+        try {
+            const authorization = req.headers['authorization']!.split(' ');
+            if (authorization[0] !== 'Bearer') {
+                return res.status(401).send();
+            } else {
+                res.locals.jwt = jwt.decode(authorization[1])
+            }
+        } catch (e) {
+
+        }
+
         const user: any = await this.usersService.getUserByEmailWithPassword(
             res.locals.jwt.email
         );
@@ -49,7 +63,7 @@ export class JwtMiddleware {
             };
             return next();
         } else {
-            return res.status(400).send({ errors: ['Invalid refresh token'] });
+            return res.status(400).send({errors: ['Invalid refresh token']});
         }
     }
 

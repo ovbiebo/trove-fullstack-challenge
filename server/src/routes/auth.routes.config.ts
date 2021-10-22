@@ -29,8 +29,7 @@ export class AuthRoutes extends CommonRoutesConfig {
             this.authController.createJWT,
         ]);
 
-        this.app.post(`/auth/refresh-token`, [
-            this.jwtMiddleware.validJWTNeeded,
+        this.app.post(`/auth/token`, [
             this.jwtMiddleware.verifyRefreshBodyField,
             this.jwtMiddleware.validRefreshNeeded,
             this.authController.createJWT,

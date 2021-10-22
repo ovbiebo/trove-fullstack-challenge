@@ -23,7 +23,7 @@ export class UsersRoutes extends CommonRoutesConfig {
         super(app, 'UsersRoutes');
     }
 
-    configureRoutes (): express.Application {
+    configureRoutes(): express.Application {
         this.app.route('/users')
             .post(
                 body('email').isEmail(),
@@ -62,14 +62,25 @@ export class UsersRoutes extends CommonRoutesConfig {
 
         this.app.patch(`/users/:userId`, [
             body('email').isEmail().optional(),
-            body('password')
-                .isLength({min: 6})
-                .withMessage('Password must be 6+ characters')
-                .optional(),
             body('firstName').isString().optional(),
             body('lastName').isString().optional(),
             this.bodyValidationMiddleware.verifyBodyFieldsErrors,
             this.usersMiddleware.validatePatchEmail,
+            this.usersController.patch,
+        ]);
+
+        this.app.patch(`/users/:userId/password`, [
+            this.usersMiddleware.validateUserExists,
+            this.jwtMiddleware.validJWTNeeded,
+            this.permissionMiddleware.onlySameUserCanDoThisAction,
+            body('email').isEmail(),
+            body('password').isString(),
+            body('newPassword')
+                .isLength({min: 6})
+                .withMessage('Password must be 6+ characters'),
+            this.bodyValidationMiddleware.verifyBodyFieldsErrors,
+            this.usersMiddleware.validateSameEmailBelongToSameUser,
+            this.usersMiddleware.validatePatchPassword,
             this.usersController.patch,
         ]);
 
