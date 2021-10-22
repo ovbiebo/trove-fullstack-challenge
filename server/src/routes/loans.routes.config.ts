@@ -22,7 +22,7 @@ export class LoansRoutes extends CommonRoutesConfig {
     }
 
     configureRoutes(): express.Application {
-        this.app.route('/loans')
+        this.app.route('/loans/:userId')
             .all(
                 this.jwtMiddleware.validJWTNeeded
             )
@@ -37,7 +37,7 @@ export class LoansRoutes extends CommonRoutesConfig {
             );
 
         this.app
-            .route('/loans/:loanId')
+            .route('/loans/:userId/:loanId')
             .all(
                 this.jwtMiddleware.validJWTNeeded
             )
