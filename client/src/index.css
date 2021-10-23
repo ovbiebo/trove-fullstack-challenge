@@ -42,3 +42,7 @@ a {
 * {
     box-sizing: border-box;
 }
+
+.Toastify__toast {
+    @apply font-sans
+}

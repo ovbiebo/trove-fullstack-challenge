@@ -6,6 +6,7 @@ import ChangePasswordForm from "../components/forms/change-password-form";
 import {useUser} from "../state/user/user-context";
 import {useStatefulXHR} from "../utils/xhr/useStatefulXHR";
 import {LoadingSpinner} from "../components/common/indicators/loadingSpinner";
+import {toast} from "react-toastify";
 
 const Profile = () => {
     const [user] = useUser()
@@ -20,10 +21,14 @@ const Profile = () => {
 
     const onPasswordSubmit = async ({oldPassword, newPassword}) => {
         await changePassword(user.id, {email: user.email, password: oldPassword, newPassword})
+            .then(()=>toast.success("Password updated successfully"))
+            .catch((error)=>toast.error("Password update failed"))
     }
 
     const onUserDetailsSubmit = async ({firstName, lastName, email}) => {
         await editProfile(user.id, {firstName, lastName, email})
+            .then(()=>toast.success("Profile updated successfully"))
+            .catch((error)=>toast.error("Profile update failed"))
     }
 
     return (
