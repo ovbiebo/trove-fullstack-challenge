@@ -17,7 +17,7 @@ const SignUp = () => {
             setUser({id: userId, email});
             setTokens(userTokens);
         }
-        history.push("/portfolio")
+        history.push("/")
     }
 
     return (

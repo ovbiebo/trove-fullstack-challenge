@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import jwtDecode from "jwt-decode";
+import {getAccessToken} from "../../data-sources/local_storage";
 
 const userContext = createContext()
 
@@ -13,7 +14,7 @@ function useUser () {
 }
 
 function UserProvider ({ children }) {
-  const token = localStorage.getItem('access_token');
+  const token = getAccessToken();
   const {userId, email} = token ? jwtDecode(token) : {}
 
   const initialState = {
