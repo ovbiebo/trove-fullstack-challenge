@@ -9,7 +9,7 @@ const Layout = ({children}) => {
 
     return (
         !user.id
-            ? <Redirect to={"/"}/>
+            ? <Redirect to={"/sign-in"}/>
             : <>
                 <ScrollToTop/>
                 <img src={"/vectors/Wave.svg"} alt={"wave"}

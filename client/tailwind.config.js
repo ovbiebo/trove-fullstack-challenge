@@ -8,7 +8,10 @@ module.exports = {
       },
       blur: {
         '4xl': '100px',
-      }
+      },
+      minHeight: {
+        page: '36rem'
+      },
     },
   },
   variants: {

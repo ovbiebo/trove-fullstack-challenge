@@ -7,7 +7,7 @@ import {clearTokens} from "../../../data-sources/local_storage";
 const menuItems = [
     {
         title: 'Portfolio',
-        path: '/portfolio',
+        path: '/',
         icon: <LightBulbIcon/>
     },
     {

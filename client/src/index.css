@@ -7,6 +7,18 @@
         @apply pb-4 text-3xl font-semibold font-black opacity-25;
     }
 
+    .subheading {
+        @apply font-semibold text-gray-400;
+    }
+
+    .secondary-bg {
+        background-color: #FC6767;
+    }
+
+    .button-secondary {
+        @apply hover:text-white hover:bg-indigo-400 cursor-pointer;
+    }
+
     .button-primary {
         @apply relative w-full flex items-center font-semibold justify-center h-12 px-4 text-sm text-white rounded-md bg-indigo-500 hover:bg-indigo-600 outline-none;
     }

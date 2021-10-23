@@ -10,9 +10,9 @@ function App() {
     return (
         <UserProvider>
             <Switch>
-                <Route exact path="/" component={SignIn}/>
+                <Route exact path="/" component={Portfolio}/>
                 <Route exact path="/sign-up" component={SignUp}/>
-                <Route exact path="/portfolio" component={Portfolio}/>
+                <Route exact path="/sign-in" component={SignIn}/>
                 <Route exact path="/loans" component={Loans}/>
                 <Route exact path="/profile" component={Profile}/>
             </Switch>
