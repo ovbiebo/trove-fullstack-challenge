@@ -25,7 +25,7 @@ export class LoansController {
 
     createLoan = async (req: express.Request, res: express.Response) => {
         req.body.status = Status.ACTIVE;
-        req.body.applicantId = res.locals.params.userId;
+        req.body.applicantId = req.params.userId;
         req.body.dateIssued = Date.now();
         const loanId = await this.loansService.create(req.body);
         res.status(201).send({id: loanId});
