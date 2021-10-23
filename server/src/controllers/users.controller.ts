@@ -5,14 +5,14 @@ import {UsersService} from '../services/users.service';
 import argon2 from 'argon2';
 
 import debug from 'debug';
+import {singleton} from 'tsyringe';
+import {AuthController} from "./auth.controller";
 
 const log: debug.IDebugger = debug('app:users-controller');
 
-import {singleton} from 'tsyringe';
-
 @singleton()
 export class UsersController {
-    constructor(private usersService: UsersService) {
+    constructor(private usersService: UsersService, private authController: AuthController) {
     }
 
     getUserById = async (req: express.Request, res: express.Response) => {
@@ -23,7 +23,11 @@ export class UsersController {
     createUser = async (req: express.Request, res: express.Response) => {
         req.body.password = await argon2.hash(req.body.password);
         const userId = await this.usersService.create(req.body);
-        res.status(201).send({id: userId});
+        req.body = {
+            userId: userId,
+            email: req.body.email
+        }
+        await this.authController.createJWT(req, res)
     }
 
     patch = async (req: express.Request, res: express.Response) => {
