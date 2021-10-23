@@ -14,6 +14,7 @@ import {AuthRoutes} from "./routes/auth.routes.config";
 import {UsersRoutes} from "./routes/users.routes.config";
 import {InvestmentsRoutes} from "./routes/investments.routes.config";
 import {LoansRoutes} from "./routes/loans.routes.config";
+import {PaymentsRoutes} from "./routes/payments.routes.config";
 
 const app: express.Application = express();
 configureDependencies(app);
@@ -32,6 +33,7 @@ const routes: Array<CommonRoutesConfig> = [
     container.resolve(UsersRoutes),
     container.resolve(InvestmentsRoutes),
     container.resolve(LoansRoutes),
+    container.resolve(PaymentsRoutes),
 ];
 
 

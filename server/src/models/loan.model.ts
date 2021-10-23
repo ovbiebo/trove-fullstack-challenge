@@ -9,6 +9,15 @@ const loanSchema = new Schema({
     amount: Number,
     status: Number,
     dateIssued: Date,
+    payments: [
+        {
+            _id: String,
+            email: String,
+            amount: Number,
+            installment: Number,
+            reference: String
+        }
+    ]
 }, {id: false});
 
 export const Loan = mongooseService.getMongoose().model('Loans', loanSchema);

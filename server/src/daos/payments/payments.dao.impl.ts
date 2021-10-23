@@ -5,6 +5,8 @@ import {Loan} from "../../models/loan.model";
 import {PaymentsDao} from "./payments.dao";
 import {CreatePaymentDto} from '../../dtos/payments/create.payment.dto';
 import axios from "axios";
+import {Duration} from "../../middleware/loans/duration.enum";
+import {Status} from "../../middleware/loans/status.enum";
 
 const log: debug.IDebugger = debug('app:payments-mongo-db-dao');
 
@@ -46,6 +48,10 @@ export class PaymentsDaoImpl implements PaymentsDao {
             reference: invoice.data.reference,
             ...paymentFields,
         });
+        const duration = loan.duration === Duration.SIX_MONTHS ? 6 : 12;
+        if (loan.payments.length === duration){
+            loan.status = Status.CLOSED;
+        }
         await loan.save();
 
         return invoice.data.authorization_url;
